@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KKC Web</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* PERBAIKAN: Tambahkan ini untuk mencegah overflow */
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+        
+        /* Efek Retakan Kaca untuk Logo KKC */
+        .glass-crack {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.3) 50%, transparent 51%),
+                linear-gradient(-45deg, transparent 49%, rgba(255,255,255,0.3) 50%, transparent 51%);
+            background-size: 20px 20px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .crack-animation {
+            animation: crackEffect 0.8s ease-out forwards;
+        }
+
+        @keyframes crackEffect {
+            0% {
+                opacity: 0;
+                transform: scale(1);
+                background-size: 200px 200px;
+            }
+            20% {
+                opacity: 1;
+                transform: scale(1.05);
+                background-size: 50px 50px;
+            }
+            40% {
+                transform: scale(0.98);
+                background-size: 30px 30px;
+            }
+            60% {
+                transform: scale(1.02);
+                background-size: 25px 25px;
+            }
+            80% {
+                transform: scale(0.995);
+                background-size: 22px 22px;
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                background-size: 20px 20px;
+            }
+        }
+
+        /* Efek pecah kaca untuk seal */
+        .glass-break {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8) 2%, transparent 3%),
+                radial-gradient(circle at 70% 20%, rgba(255,255,255,0.7) 1.5%, transparent 2.5%),
+                radial-gradient(circle at 20% 70%, rgba(255,255,255,0.6) 2%, transparent 3%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.5) 1%, transparent 2%);
+            background-size: 100% 100%;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .break-animation {
+            animation: glassBreak 0.6s ease-out forwards;
+        }
+
+        @keyframes glassBreak {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            30% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            80% {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Efek shake untuk logo */
+        .shake-animation {
+            animation: shakeEffect 0.5s ease-in-out;
+        }
+
+        @keyframes shakeEffect {
+            0%, 100% { transform: translateX(0) rotate(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px) rotate(-2deg); }
+            20%, 40%, 60%, 80% { transform: translateX(5px) rotate(2deg); }
+        }
+
+        /* Efek flash */
+        .flash-animation {
+            animation: flashEffect 0.3s ease-out;
+        }
+
+        @keyframes flashEffect {
+            0% { 
+                box-shadow: 0 0 50px rgba(250, 204, 21, 0.3),
+                            inset 0 0 30px rgba(250, 204, 21, 0.2);
+            }
+            50% { 
+                box-shadow: 0 0 100px rgba(250, 204, 21, 0.8),
+                            inset 0 0 60px rgba(250, 204, 21, 0.6);
+            }
+            100% { 
+                box-shadow: 0 0 50px rgba(250, 204, 21, 0.3),
+                            inset 0 0 30px rgba(250, 204, 21, 0.2);
+            }
+        }
+
+        :root {
+            --bg-dark: #020617;
+            --energy-yellow: #facc15;
+            --tkj-blue: #3b82f6;
+            --akl-red: #ef4444;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
+            color: #f8fafc;
+            overflow-x: hidden;
+            margin: 0;
+            min-height: 100vh;
+            /* PERBAIKAN: Tambahkan properti untuk mencegah scroll horizontal */
+            position: relative;
+        }
+
+    .site-bg-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-image: 
+            linear-gradient(rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.9)),
+            url('SMK.png');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+    
+    /* Blur sedang - masih jelas */
+    .site-bg-container::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(1px);
+        -webkit-backdrop-filter: blur(1px);
+        opacity: 0.4; /* transparansi blur */
+    }
+
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .highlight-yellow {
+            color: var(--energy-yellow);
+        }
+
+        #intro-seal {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        /* Simple Instagram Bottom Color */
+        .instagram-btn {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+            color: white;
+            border: none;
+            box-shadow: 0 8px 25px rgba(195, 53, 132, 0.4);
+        }
+
+        .instagram-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(195, 53, 132, 0.6);
+            background: linear-gradient(45deg, #4d68ff, #6a64ff, #9a4bff, #e04ca5, #ff4785, #ff3838);
+        }
+
+        /* Efek Teks Slogan */
+        .slogan-container {
+            position: relative;
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .slogan-word {
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(90deg, #facc15, #3b82f6, #ef4444);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% 200%;
+            animation: gradientMove 3s ease infinite;
+            padding: 0 5px;
+        }
+
+        .slogan-word:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .slogan-word:nth-child(3) {
+            animation-delay: 0.5s;
+        }
+
+        .slogan-word:nth-child(5) {
+            animation-delay: 1s;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .main-seal {
+            width: 250px;
+            height: 250px;
+            background: rgba(10, 10, 10, 0.8);
+            border: 8px solid var(--energy-yellow);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 50px rgba(250, 204, 21, 0.3);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(5px);
+        }
+
+        .main-seal:hover { 
+            transform: scale(1.1); 
+            box-shadow: 0 0 80px rgba(250, 204, 21, 0.5);
+        }
+
+        .option-card {
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .option-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--energy-yellow);
+            background: rgba(15, 23, 42, 0.6);
+        }
+
+        .member-card {
+            background: rgba(30, 41, 59, 0.3);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .teacher-photo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--energy-yellow);
+            box-shadow: 0 0 30px rgba(250, 204, 21, 0.4);
+            margin-bottom: 1.5rem;
+        }
+
+        input, select, textarea {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff !important;
+            padding: 12px;
+            border-radius: 12px;
+            outline: none;
+            width: 100%;
+        }
+
+        select option {
+            background-color: #0f172a;
+            color: #ffffff;
+        }
+        
+        input:focus, select:focus { 
+            border-color: var(--energy-yellow); 
+        }
+
+        .modal-overlay {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+        }
+
+        .hidden { display: none !important; }
+        .invisible-intro { opacity: 0; visibility: hidden; pointer-events: none; }
+
+        .desc-text {
+            max-width: 600px;
+            margin: 0 auto;
+            color: #e2e8f0;
+            line-height: 1.6;
+            font-size: 0.9rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .intro-btn {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            font-weight: 800;
+            padding: 14px 32px;
+            border-radius: 9999px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .intro-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(220, 38, 38, 0.4);
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+        
+        .intro-btn:active {
+            transform: translateY(0);
+        }
+
+        .prestasi-badge {
+            background: rgba(250, 204, 21, 0.15);
+            border: 1px solid rgba(250, 204, 21, 0.3);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #facc15;
+        }
+        
+        .prestasi-btn {
+            background: linear-gradient(135deg, #facc15 0%, #eab308 100%);
+            color: #000;
+            font-weight: 900;
+            padding: 12px 24px;
+            border-radius: 16px;
+            text-transform: uppercase;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(250, 204, 21, 0.3);
+            border: none;
+            cursor: pointer;
+            letter-spacing: 1px;
+        }
+        
+        .prestasi-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(250, 204, 21, 0.4);
+            background: linear-gradient(135deg, #fde047 0%, #facc15 100%);
+        }
+        
+        /* PERBAIKAN: Tambahkan untuk partikel */
+        #particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        /* PERBAIKAN: Tambahkan styling untuk back button yang konsisten */
+        .back-button {
+            margin-bottom: 2rem;
+            color: rgba(148, 163, 184, 1);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(248, 250, 252, 1);
+        }
+        
+        /* PERBAIKAN: Tambahkan untuk section styling yang konsisten */
+        .section-container {
+            width: 100%;
+            max-width: 80rem;
+            padding-top: 2.5rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="site-bg-container"></div>
+
+<!-- INTRO SLIDE -->
+<div id="intro-seal">
+    <div class="relative">
+        <!-- Efek pecah kaca -->
+        <div id="glass-break" class="glass-break"></div>
+        
+        <!-- Logo utama -->
+        <div class="main-seal relative overflow-hidden" onclick="crackAndEnter()">
+            <!-- Efek retakan di dalam logo -->
+            <div id="glass-crack" class="glass-crack"></div>
+            
+            <!-- Teks KKC -->
+            <span class="text-6xl font-black text-yellow-400 relative z-10">KKC</span>
+            <!-- Efek cahaya dalam -->
+            <div class="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-transparent rounded-full"></div>
+        </div>
+    </div>
+    
+    <!-- Pesan instruksi -->
+    <p class="mt-6 text-yellow-500/70 font-bold tracking-widest text-sm uppercase animate-pulse">
+        Klik logo untuk masuk
+    </p>
+    
+    <!-- Efek partikel (opsional) -->
+    <div id="particles" class="fixed inset-0 pointer-events-none z-50 opacity-0"></div>
+</div>
+
+    <!-- MAIN CONTENT -->
+    <main id="main-content" class="hidden min-h-screen flex flex-col items-center p-4 md:p-8 relative opacity-0 transition-opacity duration-1000">
+       
+        <!-- HOME (HANYA 3 TOMBOL) -->
+        <section id="slide-1" class="section-container">
+            <!-- Logo Extra Besar -->
+            <div class="mb-8">
+                <div class="relative">
+                    <img src="LogoKKC.png" 
+                         alt="Logo KKC" 
+                         class="w-52 h-52 rounded-full object-cover border-8 border-yellow-500
+                                shadow-[0_0_40px_rgba(250,204,21,0.3)] mx-auto">
+                    
+                    <!-- Efek halo -->
+                    <div class="absolute -inset-4 rounded-full bg-yellow-500/15 blur-2xl -z-10 left-1/2 transform -translate-x-1/2"></div>
+                </div>
+            </div>
+                
+            <div class="mb-4">
+                <span class="text-4xl md:text-5xl font-black tracking-tighter drop-shadow-lg">
+                    <span class="text-yellow-400">KKC</span> 
+                    <span class="text-red-500">HERE!!!</span>
+                </span>
+            </div>
+            
+            <h1 class="text-5xl md:text-8xl font-black mb-2 tracking-tighter uppercase leading-none drop-shadow-2xl">
+                T<span class="highlight-yellow">K</span>J-A<span class="highlight-yellow">K</span>L <span class="highlight-yellow">C</span>lass
+            </h1>
+            <div class="mb-4">
+                <a href="https://instagram.com/this_is_kkc" target="_blank" 
+                   class="instagram-btn inline-block px-8 py-4 rounded-2xl font-black uppercase text-sm md:text-base tracking-widest transition-all duration-300">
+                    <span class="flex items-center gap-3">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                        @this_is_kkc
+                    </span>
+                </a>
+            </div>
+
+            <!-- SLOGAN KELAS -->
+            <div class="slogan-container mb-6">
+                <div class="slogan-text text-2xl md:text-3xl font-black italic uppercase tracking-tight">
+                    <span class="slogan-word" data-word="Berpikir Logis">BERPIKIR LOGIS</span>
+                    <span class="mx-2">•</span>
+                    <span class="slogan-word" data-word="Bertindak Strategis">BERTINDAK STRATEGIS</span>
+                </div>
+            </div>
+
+            <div class="desc-text mb-12 italic">
+                KKC dibentuk oleh siswa/i kelas 10 SMK Methodist Tanjung Morawa yang menjadi wadah bertemunya 2 jurusan, yaitu <span class="text-blue-400 font-bold">TKJ (Teknik Komputer dan Jaringan)</span> dan <span class="text-red-400 font-bold">AKL (Akuntansi dan Keuangan Lembaga)</span>.
+            </div>
+
+            <!-- 3 TOMBOL UTAMA -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto mt-8 px-4">
+                <div onclick="goToSlide('slide-family')" class="option-card p-10 rounded-[2rem] flex flex-col items-center gap-4">
+                    <span class="text-5xl">👥</span>
+                    <h3 class="text-sm font-black uppercase text-white tracking-widest">Family of KKC</h3>
+                </div>
+                <div onclick="goToSlide('slide-tugas')" class="option-card p-10 rounded-[2rem] flex flex-col items-center gap-4">
+                    <span class="text-5xl">📝</span>
+                    <h3 class="text-sm font-black uppercase text-white tracking-widest">Homework/Project</h3>
+                </div>
+                <div onclick="goToSlide('slide-memory-hub')" class="option-card p-10 rounded-[2rem] flex flex-col items-center gap-4">
+                    <span class="text-5xl">📁</span>
+                    <h3 class="text-sm font-black uppercase text-white tracking-widest">Our Memories</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE FAMILY OF KKC -->
+        <section id="slide-family" class="section-container hidden">
+            <button onclick="goToSlide('slide-1')" class="back-button">← Kembali ke Home</button>
+            
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-black mb-8 text-white italic uppercase tracking-tighter">Family of KKC</h2>
+                
+                <!-- Wali Kelas -->
+                <div class="mb-16">
+                    <h3 class="text-2xl font-black mb-6 text-yellow-400 uppercase">Wali Kelas</h3>
+                    <div class="max-w-xs mx-auto">
+                        <div class="option-card p-8 rounded-[2rem] border-2 border-yellow-500/50 flex flex-col items-center gap-3">
+                            <img src="ES.png" alt="Ernawati Siahaan, S.Kom." class="teacher-photo">
+                            <div>
+                                <h4 class="text-sm font-black text-yellow-400 uppercase">Ernawati Siahaan, S.Kom.</h4>
+                                <p class="text-[10px] text-slate-200 uppercase font-bold tracking-widest mt-1">Ibu Algoritma</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full h-[1px] bg-white/10 mb-12"></div>
+
+                <!-- Pilih Jurusan -->
+                <h3 class="text-2xl font-black mb-8 text-white uppercase">Pilih Jurusan</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+                    <div onclick="showMembers('TKJ')" class="option-card p-10 rounded-[2rem] border-l-8 border-blue-500 cursor-pointer">
+                        <div class="text-5xl mb-4">💻</div>
+                        <h4 class="text-3xl font-black text-white">Jurusan <span class="text-blue-500">TKJ</span></h4>
+                        <p class="text-sm text-slate-400 mt-2">21 Siswa</p>
+                    </div>
+                    <div onclick="showMembers('AKL')" class="option-card p-10 rounded-[2rem] border-l-8 border-red-500 cursor-pointer">
+                        <div class="text-5xl mb-4">📊</div>
+                        <h4 class="text-3xl font-black text-white">Jurusan <span class="text-red-500">AKL</span></h4>
+                        <p class="text-sm text-slate-400 mt-2">5 Siswa</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DAFTAR ANGGOTA -->
+        <section id="slide-member-list" class="section-container hidden">
+            <button onclick="goToSlide('slide-family')" class="back-button">← Kembali ke Family</button>
+            
+            <div class="max-w-6xl mx-auto">
+                <h2 id="jurusan-title" class="text-5xl font-black italic mb-10 uppercase tracking-tighter"></h2>
+                <div id="member-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+            </div>
+        </section>
+
+        <!-- PROFIL SISWA -->
+        <section id="slide-profil-siswa" class="section-container hidden">
+            <button onclick="goToSlide('slide-member-list')" class="back-button">← Kembali ke Daftar</button>
+            
+            <div class="max-w-4xl mx-auto">
+                <div id="profil-siswa-content"></div>
+            </div>
+        </section>
+
+        <!-- SLIDE PRESTASI SISWA -->
+        <section id="slide-prestasi-siswa" class="section-container hidden">
+            <button onclick="goToSlide('slide-profil-siswa')" class="back-button">← Kembali ke Profil</button>
+            
+            <div class="max-w-4xl mx-auto">
+                <div id="prestasi-siswa-content"></div>
+            </div>
+        </section>
+
+        <!-- TUGAS -->
+        <section id="slide-tugas" class="section-container hidden">
+            <button onclick="goToSlide('slide-1')" class="back-button">← Kembali ke Home</button>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="flex justify-between items-end mb-10">
+                    <h2 class="text-4xl font-black text-yellow-400 italic uppercase">Homework & Projects</h2>
+                    <button onclick="toggleForm('tugas-form')" class="bg-white text-black px-6 py-2 rounded-xl font-black uppercase text-xs hover:bg-gray-100 transition-colors">Tambah +</button>
+                </div>
+
+                <div id="tugas-form" class="hidden bg-slate-900 border border-white/10 p-6 rounded-[2rem] mb-8 shadow-2xl">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" id="t-mapel" placeholder="Mata Pelajaran">
+                        <input type="date" id="t-date">
+                        <textarea id="t-desc" placeholder="Detail Tugas..." class="md:col-span-2" rows="3"></textarea>
+                    </div>
+                    <button onclick="saveTugas()" class="w-full mt-4 bg-yellow-500 text-black py-3 rounded-xl font-black uppercase text-xs hover:bg-yellow-400 transition-colors">Simpan Tugas</button>
+                </div>
+                
+                <div id="tugas-list" class="space-y-4"></div>
+            </div>
+        </section>
+
+        <!-- MEMORI -->
+        <section id="slide-memory-hub" class="section-container hidden">
+            <button onclick="goToSlide('slide-1')" class="back-button">← Kembali ke Home</button>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-slate-900/60 backdrop-blur-md p-12 rounded-[3rem] border border-white/5">
+                    <h2 class="text-5xl font-black mb-6 text-yellow-500 italic uppercase">Our Memories Hub</h2>
+                    <p class="text-slate-200 mb-8 text-lg">Akses semua foto dan video kenangan KKC di sini.</p>
+                    <a href="https://drive.google.com/drive/folders/11dCUqZgIStfEnn9g9OSjDUPbWZ5PbZao?usp=sharing" target="_blank" class="inline-block bg-white text-black px-10 py-4 rounded-2xl font-black uppercase text-sm tracking-widest transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-white/5 hover:shadow-2xl hover:shadow-white/10">
+                        Buka Google Drive Memories
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // PERBAIKAN: Hapus duplikasi dan optimasi kode
+        let isAnimating = false;
+        
+        // Function efek retakan dan masuk
+        function crackAndEnter() {
+            if (isAnimating) return;
+            isAnimating = true;
+            
+            const intro = document.getElementById('intro-seal');
+            const mainSeal = document.querySelector('.main-seal');
+            const glassCrack = document.getElementById('glass-crack');
+            const glassBreak = document.getElementById('glass-break');
+            
+            console.log('Memulai efek retakan...');
+            
+            // 1. Efek shake
+            mainSeal.classList.add('shake-animation', 'flash-animation');
+            
+            // 2. Efek retakan muncul
+            setTimeout(() => {
+                glassCrack.classList.add('crack-animation');
+                
+                // 3. Efek pecah kaca
+                setTimeout(() => {
+                    glassBreak.classList.add('break-animation');
+                    
+                    // 4. Pindah ke slide 1 setelah efek selesai
+                    setTimeout(() => {
+                        intro.classList.add('invisible-intro');
+                        setTimeout(() => {
+                            intro.classList.add('hidden');
+                            const main = document.getElementById('main-content');
+                            main.classList.remove('hidden');
+                            setTimeout(() => {
+                                main.classList.add('opacity-100');
+                                isAnimating = false;
+                            }, 50);
+                        }, 300);
+                    }, 600);
+                }, 300);
+            }, 200);
+        }
+
+        // Efek untuk slogan
+        document.addEventListener('DOMContentLoaded', function() {
+            const sloganWords = document.querySelectorAll('.slogan-word');
+            
+            sloganWords.forEach((word) => {
+                // Efek hover
+                word.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.1)';
+                    this.style.textShadow = '0 8px 20px rgba(250, 204, 21, 0.5)';
+                    this.style.transition = 'all 0.3s ease';
+                });
+                
+                word.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.textShadow = 'none';
+                });
+            });
+            
+            // PERBAIKAN: Event listener keyboard hanya satu
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    const intro = document.getElementById('intro-seal');
+                    if (!intro.classList.contains('hidden') && !isAnimating) {
+                        e.preventDefault();
+                        crackAndEnter();
+                    }
+                }
+            });
+        });
+        
+        // DATA SISWA LENGKAP (36 siswa)
+        const siswaData = {
+            TKJ: [
+                { id: 'tkj-1', nama: 'ALEX SANDER AGUNG GOZALI', gender: 'Laki-laki', agama: 'Budha', tempat: ' Lubuk Pakam', tgl: '30 Maret 2010', foto: 'Alex.png' },
+                { id: 'tkj-2', nama: 'ALVINNO GUSNADI', gender: 'Laki-laki', agama: 'Budha', tempat: 'Tanjung Morawa', tgl: '21 Maret 2010', foto: 'Vino.png' },
+                { id: 'tkj-3', nama: 'ANANDA BIMA GIDEONS', gender: 'Laki-laki', agama: 'Kristen', tempat: 'Kampar', tgl: '03 September 2009', foto: 'Nanda.png' },
+                { id: 'tkj-4', nama: 'ARYANTO SIAGIAN', gender: 'Laki-laki', agama: 'Kristen', tempat: 'Tanjung Morawa', tgl: '22 Juli 2010', foto: 'Ary.png' },
+                { id: 'tkj-5', nama: 'AURELLIA PUTRI JOSI SARAGIH', gender: 'Perempuan', agama: 'Kristen', tempat: 'Tebing Tinggi', tgl: '20 Maret 2010', foto: 'Aurel.png' },
+                { id: 'tkj-6', nama: 'BERKAT MEIMAN ZEGA', gender: 'Laki-laki', agama: 'Kristen', tempat: 'Tanjung Morawa', tgl: '22 Mei 2011', foto: 'Berkat.png' },
+                { id: 'tkj-7', nama: 'CLARIPI GONJALES SIREGAR', gender: 'Laki-laki', agama: 'Kristen', tempat: 'Tanjung Morawa', tgl: '29 September 2009', foto: 'Clarif.png' },
+                { id: 'tkj-8', nama: 'CLAUDIA CINTA BELA BR SILABAN', gender: 'Perempuan', agama: 'Kristen', tempat: 'BT. Serangan', tgl: '04 September 2009', foto: 'Bella.png' },
+                { id: 'tkj-9', nama: 'DELVIN ALFONSO ONG', gender: 'Laki-laki', agama: 'Budha', tempat: 'Tanjung Morawa', tgl: '21 Juli 2010', foto: 'Delvin.png' },
+                { id: 'tkj-10', nama: 'DEVON VALA DELVANO', gender: 'Laki-laki', agama: 'Budha', tempat: 'Medan', tgl: '14 Juni 2010', foto: 'Devon.png' },
+                { id: 'tkj-11', nama: 'EGY SURANTA SURBAKTI', gender: 'Laki-laki', agama: 'Katolik', tempat: 'Kabanjahe', tgl: '21 Agustus 2010', foto: 'Egy.png' },
+                { id: 'tkj-12', nama: 'FEDERICKO HALIM', gender: 'Laki-laki', agama: 'Budha', tempat: 'Tanjung Morawa', tgl: '23 April 2010', foto: 'Federico.png' },
+                { id: 'tkj-13', nama: 'IMANUEL VEVEREALST SITIO', gender: 'Laki-laki', agama: 'Kristen', tempat: 'Boyolali', tgl: '21 Juli 2010', foto: 'Noel.png' },
+                { id: 'tkj-14', nama: 'JASON TANAKA', gender: 'Laki-laki', agama: 'Budha', tempat: 'Tanjung Morawa', tgl: '25 September 2010', foto: 'Jason.png' },
+                { id: 'tkj-15', nama: 'JONATHAN HAREFA', gender: 'Laki-laki', agama: 'Kristen', tempat: 'Tanjung Morawa', tgl: '09 Desember 2009', foto: 'Jon.png' },
+                { id: 'tkj-16', nama: 'MARCHELL FRANSISCO ANTOLIM', gender: 'Laki-laki', agama: 'Budha', tempat: 'Medan', tgl: '30 Maret 2010', foto: 'March.png' },
+                { id: 'tkj-17', nama: 'NATASIA SINAGA', gender: 'Perempuan', agama: 'Kristen', tempat: 'Lau Kersik', tgl: '22 Maret 2009', foto: 'Nath.png' },
+                { id: 'tkj-18', nama: 'PASKAH MAGDALENA HABEAHAN', gender: 'Perempuan', agama: 'Kristen', tempat: 'Medan', tgl: ' 03 April 2010', foto: 'Paskah.png' },
+                { id: 'tkj-19', nama: 'REVALDO', gender: 'Laki-laki', agama: 'Kristen', tempat: 'Tanjung Morawa', tgl: '31 Maret 2009', foto: 'Revaldo.png' },
+                { id: 'tkj-20', nama: 'STANLEY TIONARDY', gender: 'Laki-laki', agama: 'Budha', tempat: 'Tanjung Morawa', tgl: '04 Oktober 2009', foto: 'Stan.png' },
+                { id: 'tkj-21', nama: 'YOSUA SINAGA', gender: 'Laki-laki', agama: 'Kristen', tempat: 'Tanjung Morawa', tgl: '08 September 2009', foto: 'Yos.png' }
+            ],
+            AKL: [
+                { id: 'akl-1', nama: 'BUNGA PEBRIANI SARAGIH', gender: 'Perempuan', agama: 'Katolik', tempat: 'Medan', tgl: '26 Februari 2010', foto: 'Bung.png' },
+                { id: 'akl-2', nama: 'CLAUDYA HATOYAMA LIM', gender: 'Perempuan', agama: 'Budha', tempat: 'Tanjung Morawa', tgl: '12 September 2010', foto: 'Claudia.png' },
+                { id: 'akl-3', nama: 'MICHELLE CONSTANTINE', gender: 'Perempuan', agama: 'Budha', tempat: 'Medan', tgl: '07 Desember 2010', foto: 'Michelle.png' },
+                { id: 'akl-4', nama: 'STHEFANNY PUTRA', gender: 'Perempuan', agama: 'Budha', tempat: 'Tanjung Morawa', tgl: '18 Desember 2010', foto: 'Sthefanny.png' },
+                { id: 'akl-5', nama: 'VALENCIA', gender: 'Perempuan', agama: 'Budha', tempat: 'Medan', tgl: '23 Oktober 2010', foto: 'Valen.png' },
+            ]
+        };
+
+        // Data Prestasi
+        const storage = {
+            tugas: JSON.parse(localStorage.getItem('kkc_tugas') || '[]'),
+            prestasi: JSON.parse(localStorage.getItem('kkc_prestasi') || '[]')
+        };
+
+        const rankingTingkat = { "Internasional": 6, "Nasional": 5, "Provinsi": 4, "Kabupaten/Kota": 3, "Kecamatan": 2, "Sekolah": 1 };
+        const rankingHasil = { "Juara Umum": 12, "Juara 1": 11, "Juara 2": 10, "Juara 3": 9, "Juara favorite": 8, "Harapan 1": 7, "Harapan 2": 6, "Harapan 3": 5, "Medali Emas": 4, "Medali Perak": 3, "Medali Perunggu": 2, "Peserta Aktif": 1 };
+        
+        const AKADEMIK_TYPES = ["Olimpiade", "Karya Tulis", "Debat", "Cerdas Cermat Umum", "Lomba Esai ilmiah"];
+        
+        let currentActiveSiswa = null;
+
+        // Navigation
+        function goToSlide(id) {
+            document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+            if(id === 'slide-tugas') renderTugas();
+            window.scrollTo(0,0);
+        }
+
+        function showMembers(jurusan) {
+            const grid = document.getElementById('member-grid');
+            const titleEl = document.getElementById('jurusan-title');
+            titleEl.innerHTML = jurusan === 'TKJ' ? `JURUSAN <span class="text-blue-500">TKJ</span>` : `JURUSAN <span class="text-red-500">AKL</span>`;
+            grid.innerHTML = "";
+            const data = siswaData[jurusan];
+
+            data.forEach(siswa => {
+                const prestasiCount = storage.prestasi.filter(p => p.siswaId === siswa.id).length;
+                
+                const div = document.createElement('div');
+                div.className = `member-card p-4 rounded-2xl text-center cursor-pointer hover:border-yellow-500`;
+                div.onclick = () => openProfilSiswa(siswa);
+                div.innerHTML = `
+                    <img src="${siswa.foto}" alt="${siswa.nama}" class="w-16 h-16 rounded-full mx-auto mb-2 object-cover border-2 ${jurusan === 'TKJ' ? 'border-blue-500' : 'border-red-500'}">
+                    <p class="text-[9px] font-black text-white uppercase truncate px-1 mb-1">${siswa.nama}</p>
+                    <div class="text-[8px] text-slate-400">
+                        ${prestasiCount > 0 ? `<span class="prestasi-badge text-[8px] px-2 py-1">${prestasiCount} Prestasi</span>` : 'Belum ada prestasi'}
+                    </div>
+                `;
+                grid.appendChild(div);
+            });
+            goToSlide('slide-member-list');
+        }
+
+        function openProfilSiswa(siswa) {
+            currentActiveSiswa = siswa;
+            renderProfilSiswa();
+            goToSlide('slide-profil-siswa');
+        }
+
+        function renderProfilSiswa() {
+            const siswa = currentActiveSiswa;
+            const content = document.getElementById('profil-siswa-content');
+            const prestasiSiswa = storage.prestasi.filter(p => p.siswaId === siswa.id);
+            
+            content.innerHTML = `
+                <div class="bg-slate-900/90 p-8 rounded-[2rem] border border-white/10 backdrop-blur-md">
+                    <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+                        <div class="text-center md:text-left">
+                            <img src="${siswa.foto}" alt="${siswa.nama}" class="w-48 h-48 rounded-full mx-auto md:mx-0 mb-6 object-cover border-4 border-yellow-500 shadow-xl">
+                            <button onclick="bukaPrestasiSiswa()" class="prestasi-btn mt-4">
+                                <span class="text-lg">🏆</span> LIHAT PRESTASI
+                            </button>
+                        </div>
+                        
+                        <div class="flex-1">
+                            <h3 class="text-3xl font-black mb-6 uppercase text-yellow-400 leading-tight">${siswa.nama}</h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                                    <label class="text-yellow-500 block text-[10px] font-black uppercase mb-1 opacity-60 tracking-widest">Tempat, Tanggal Lahir</label>
+                                    <p class="text-sm font-bold text-white uppercase">${siswa.tempat}, ${siswa.tgl}</p>
+                                </div>
+                                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                                    <label class="text-yellow-500 block text-[10px] font-black uppercase mb-1 opacity-60 tracking-widest">Agama</label>
+                                    <p class="text-sm font-bold text-white uppercase">${siswa.agama}</p>
+                                </div>
+                                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                                    <label class="text-yellow-500 block text-[10px] font-black uppercase mb-1 opacity-60 tracking-widest">Jenis Kelamin</label>
+                                    <p class="text-sm font-bold text-white uppercase">${siswa.gender}</p>
+                                </div>
+                                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                                    <label class="text-yellow-500 block text-[10px] font-black uppercase mb-1 opacity-60 tracking-widest">Total Prestasi</label>
+                                    <p class="text-2xl font-black text-yellow-500 text-center">${prestasiSiswa.length}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8">
+                                <h4 class="text-xl font-black text-white uppercase mb-4">Prestasi Terbaru</h4>
+                                ${prestasiSiswa.length > 0 ? `
+                                    <div class="bg-white/5 p-4 rounded-xl">
+                                        <h5 class="font-black text-white">${prestasiSiswa[0].nama}</h5>
+                                        <p class="text-xs text-slate-400 mt-1">${prestasiSiswa[0].hasil} - ${prestasiSiswa[0].tingkat} - ${prestasiSiswa[0].waktu}</p>
+                                    </div>
+                                ` : `
+                                    <p class="text-slate-500 text-sm">Belum ada prestasi tercatat.</p>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function bukaPrestasiSiswa() {
+            renderPrestasiSiswa();
+            goToSlide('slide-prestasi-siswa');
+        }
+
+        function renderPrestasiSiswa() {
+            const siswa = currentActiveSiswa;
+            const content = document.getElementById('prestasi-siswa-content');
+            const prestasiSiswa = storage.prestasi.filter(p => p.siswaId === siswa.id);
+            
+            // Urutkan prestasi
+            prestasiSiswa.sort((a, b) => {
+                if (rankingTingkat[b.tingkat] !== rankingTingkat[a.tingkat]) return rankingTingkat[b.tingkat] - rankingTingkat[a.tingkat];
+                if (rankingHasil[b.hasil] !== rankingHasil[a.hasil]) return rankingHasil[b.hasil] - rankingHasil[a.hasil];
+                return new Date(b.waktu) - new Date(a.waktu);
+            });
+
+            content.innerHTML = `
+                <div class="bg-slate-900/90 p-8 rounded-[2rem] border border-white/10 backdrop-blur-md">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                        <div>
+                            <h3 class="text-3xl font-black uppercase text-yellow-400">PRESTASI</h3>
+                            <p class="text-white text-lg">${siswa.nama}</p>
+                        </div>
+                        <button onclick="tambahPrestasiSiswa()" class="prestasi-btn">
+                            <span class="text-lg">➕</span> TAMBAH PRESTASI
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-4 mb-8">
+                        ${prestasiSiswa.length > 0 ? prestasiSiswa.map(p => `
+                            <div class="bg-white/5 p-6 rounded-[1.5rem] flex justify-between items-center group border border-white/5 hover:bg-white/10 transition-all">
+                                <div class="flex-1">
+                                    <div class="flex flex-wrap gap-2 mb-2">
+                                        <span class="text-[10px] font-black ${p.kelompok === 'Akademik' ? 'text-green-500 bg-green-500/10' : 'text-purple-500 bg-purple-500/10'} px-2 py-1 rounded uppercase">${p.kelompok}</span>
+                                        <span class="text-[10px] font-black text-yellow-500 bg-yellow-500/10 px-2 py-1 rounded uppercase">${p.tingkat}</span>
+                                        <span class="text-[10px] font-black text-blue-500 bg-blue-500/10 px-2 py-1 rounded uppercase">${p.jenis}</span>
+                                    </div>
+                                    <h5 class="font-black text-white text-lg mb-1">${p.nama}</h5>
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-[10px] font-black text-white bg-white/10 px-2 py-1 rounded uppercase">${p.hasil}</span>
+                                        <span class="text-[10px] text-slate-400">${p.waktu}</span>
+                                        <span class="text-[10px] text-slate-400">•</span>
+                                        <span class="text-[10px] text-slate-400">${p.oleh || 'SMK Methodist Tanjung Morawa'}</span>
+                                    </div>
+                                </div>
+                                <button onclick="hapusPrestasiSiswa(${p.id})" class="ml-4 p-3 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white rounded-xl opacity-0 group-hover:opacity-100 transition-all">🗑️</button>
+                            </div>
+                        `).join('') : `
+                            <div class="bg-white/5 rounded-[2rem] py-20 text-center border border-dashed border-white/10">
+                                <p class="text-slate-500 font-black uppercase text-[10px] tracking-widest">Belum ada data prestasi tercatat.</p>
+                                <button onclick="tambahPrestasiSiswa()" class="mt-4 prestasi-btn">Tambah Prestasi Pertama</button>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        function tambahPrestasiSiswa() {
+            const siswa = currentActiveSiswa;
+            
+            // Verifikasi dengan NAMA LENGKAP HURUF KAPITAL
+            const password = prompt(`MASUKKAN PASSWORD ANDA`);
+            
+            if (!password) return;
+            
+            // Cek apakah password benar (NAMA LENGKAP HURUF KAPITAL)
+            if (password !== siswa.nama) {
+                alert("NAMA TIDAK SESUAI!");
+                return;
+            }
+            
+            // Tampilkan form tambah prestasi
+            const formHTML = `
+                <div class="bg-white/5 p-6 rounded-[1.5rem] border border-yellow-500/30">
+                    <h4 class="text-xl font-black text-yellow-400 mb-6">TAMBAH PRESTASI BARU</h4>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-white text-sm font-bold mb-2 block">Nama Lomba/Kegiatan</label>
+                            <input type="text" id="new-p-nama" placeholder="Contoh: Olimpiade Matematika Nasional" class="w-full">
+                        </div>
+                        
+                        <div>
+                            <label class="text-white text-sm font-bold mb-2 block">Penyelenggara</label>
+                            <input type="text" id="new-p-oleh" placeholder="Contoh: Dinas Pendidikan" class="w-full">
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-white text-sm font-bold mb-2 block">Tanggal</label>
+                                <input type="date" id="new-p-waktu" class="w-full">
+                            </div>
+                            <div>
+                                <label class="text-white text-sm font-bold mb-2 block">Tingkat</label>
+                                <select id="new-p-tingkat" class="w-full">
+                                    <option value="" disabled selected>Pilih Tingkat</option>
+                                    ${Object.keys(rankingTingkat).map(t => `<option value="${t}">${t}</option>`).join('')}
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-white text-sm font-bold mb-2 block">Jenis Lomba</label>
+                                <select id="new-p-jenis" class="w-full">
+                                    <option value="" disabled selected>Pilih Jenis</option>
+                                    <optgroup label="Akademik">
+                                        ${["Olimpiade", "Karya Tulis", "Debat", "Cerdas Cermat", "Lomba Esai", "Lomba Akuntansi", "Lomba Matematika", "Lomba Fisika", "Lomba Kimia", "Lomba Biologi"].map(j => `<option value="${j}">${j}</option>`).join('')}
+                                    </optgroup>
+                                    <optgroup label="Non-Akademik">
+                                        ${["Olahraga", "E-sport", "Public Speaking", "Seni Musik", "Seni Lukis", "Paskibra", "Pramuka", "PMR", "Paduan Suara", "Tari Tradisional", "Bulu Tangkis", "Futsal", "Basket"].map(j => `<option value="${j}">${j}</option>`).join('')}
+                                </optgroup>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-white text-sm font-bold mb-2 block">Hasil</label>
+                                <select id="new-p-hasil" class="w-full">
+                                    <option value="" disabled selected>Pilih Hasil</option>
+                                    ${Object.keys(rankingHasil).map(h => `<option value="${h}">${h}</option>`).join('')}
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-white/10">
+                            <p class="text-yellow-500 text-sm mb-4">⚠️ Anda login sebagai: <span class="font-bold">${password}</span></p>
+                            <div class="flex gap-4">
+                                <button onclick="simpanPrestasiBaru()" class="flex-1 prestasi-btn">💾 SIMPAN PRESTASI</button>
+                                <button onclick="renderPrestasiSiswa()" class="flex-1 bg-gray-700 text-white py-3 rounded-xl font-bold">❌ BATAL</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('prestasi-siswa-content').innerHTML = `
+                <div class="bg-slate-900/90 p-8 rounded-[2rem] border border-white/10 backdrop-blur-md">
+                    <button onclick="renderPrestasiSiswa()" class="mb-6 text-slate-400 font-bold uppercase text-xs tracking-widest bg-white/5 px-4 py-2 rounded-full">← Kembali ke Daftar Prestasi</button>
+                    ${formHTML}
+                </div>
+            `;
+        }
+
+        function simpanPrestasiBaru() {
+            const values = {
+                nama: document.getElementById('new-p-nama').value,
+                oleh: document.getElementById('new-p-oleh').value,
+                waktu: document.getElementById('new-p-waktu').value,
+                tingkat: document.getElementById('new-p-tingkat').value,
+                jenis: document.getElementById('new-p-jenis').value,
+                hasil: document.getElementById('new-p-hasil').value
+            };
+
+            // Validasi
+            if (!values.nama || !values.waktu || !values.tingkat || !values.jenis || !values.hasil) {
+                alert("Lengkapi semua data terlebih dahulu!");
+                return;
+            }
+
+            const kelompok = AKADEMIK_TYPES.includes(values.jenis) ? "Akademik" : "Non-Akademik";
+
+            storage.prestasi.push({
+                id: Date.now(),
+                siswaId: currentActiveSiswa.id,
+                nama: values.nama,
+                oleh: values.oleh,
+                waktu: values.waktu,
+                kelompok,
+                jenis: values.jenis,
+                hasil: values.hasil,
+                tingkat: values.tingkat,
+                ditambahkanOleh: currentActiveSiswa.nama,
+                tanggalDitambahkan: new Date().toISOString().split('T')[0]
+            });
+
+            localStorage.setItem('kkc_prestasi', JSON.stringify(storage.prestasi));
+            renderPrestasiSiswa();
+            alert("Prestasi berhasil ditambahkan!");
+        }
+
+        function hapusPrestasiSiswa(id) {
+            const prestasi = storage.prestasi.find(p => p.id === id);
+            if (!prestasi) return;
+            
+            // Verifikasi dengan NAMA LENGKAP HURUF KAPITAL
+            const password = prompt(`MASUKKAN PASSWORD ANDA`);
+            
+            if (!password) return;
+            
+            // Cek apakah password benar (NAMA LENGKAP HURUF KAPITAL)
+            if (password !== currentActiveSiswa.nama) {
+                alert("NAMA TIDAK SESUAI! Hanya pemilik prestasi yang dapat menghapusnya.");
+                return;
+            }
+            
+            if (confirm(`Apakah Anda yakin ingin menghapus prestasi:\n"${prestasi.nama}"?`)) {
+                storage.prestasi = storage.prestasi.filter(p => p.id !== id);
+                localStorage.setItem('kkc_prestasi', JSON.stringify(storage.prestasi));
+                renderPrestasiSiswa();
+                alert("Prestasi berhasil dihapus!");
+            }
+        }
+
+        // Tugas functions
+        function toggleForm(id) {
+            document.getElementById(id).classList.toggle('hidden');
+        }
+
+        function saveTugas() {
+            const mapel = document.getElementById('t-mapel').value;
+            if(!mapel) return;
+            storage.tugas.push({ 
+                id: Date.now(), 
+                mapel, 
+                date: document.getElementById('t-date').value, 
+                desc: document.getElementById('t-desc').value 
+            });
+            localStorage.setItem('kkc_tugas', JSON.stringify(storage.tugas));
+            renderTugas();
+            toggleForm('tugas-form');
+        }
+
+        function renderTugas() {
+            const list = document.getElementById('tugas-list');
+            list.innerHTML = storage.tugas.length > 0 ? storage.tugas.map(t => `
+                <div class="bg-white/10 p-6 rounded-2xl flex justify-between items-center group border border-white/5">
+                    <div>
+                        <span class="text-[10px] font-black text-yellow-500 uppercase tracking-widest">${t.date}</span>
+                        <h4 class="font-black text-white uppercase text-lg italic">${t.mapel}</h4>
+                        <p class="text-xs text-slate-400 mt-1">${t.desc}</p>
+                    </div>
+                    <button onclick="deleteTugas(${t.id})" class="text-red-500 opacity-0 group-hover:opacity-100 p-3 hover:bg-red-500/10 rounded-xl transition-all">🗑️</button>
+                </div>
+            `).join('') : `<p class="text-center text-slate-500 uppercase text-[10px] tracking-widest py-10">Tidak ada tugas aktif.</p>`;
+        }
+
+        function deleteTugas(id) {
+            storage.tugas = storage.tugas.filter(t => t.id !== id);
+            localStorage.setItem('kkc_tugas', JSON.stringify(storage.tugas));
+            renderTugas();
+        }
+    </script>
+</body>
+</html>
